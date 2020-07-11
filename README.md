@@ -2,6 +2,7 @@
 Make School | MOB 2-2 | Core Data final Project
 
 Original Taskee [Here](https://github.com/KitsuneNoctus/Taskee-Final)
+> Lost do to technical and human error
 
 Final Project of the MOB 2.1 - Local Persistence in iOS class
 
