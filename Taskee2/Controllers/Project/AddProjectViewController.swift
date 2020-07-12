@@ -14,6 +14,9 @@ class AddProjectViewController: UIViewController {
     let colors: [UIColor] = [UIColor(named: "softRed")!,UIColor(named: "almostPink")!,UIColor(named: "Lavender")!,UIColor(named: "SkyBlue")!,UIColor(named: "ForrestGreen")!,UIColor(named: "lightOrange")!,UIColor(named: "black")!,UIColor(named: "grey")!,UIColor(named: "lightGrey")!]
     
     var coreDataStack: CoreDataStack?
+    var project: Project?
+    var setColor: UIColor? = nil
+    var delegate: ProjectHomeViewController?
     
 //    let titleField: UITextField = {
 //        let text = UITextField()
@@ -45,6 +48,8 @@ class AddProjectViewController: UIViewController {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
         setup()
+//        ifEdit()
+        isNew()
     }
     
     //MARK: Setup
@@ -71,8 +76,45 @@ class AddProjectViewController: UIViewController {
         ])
     }
     
-    //MARK: Touch Action
+    //MARK: Edit
+    func ifEdit(){
+        
+    }
+    
+    //MARK: New
+    func isNew(){
+        
+    }
+    
+    //MARK: Touch Action - Save
     @objc func save(){
+        guard let title = titleField.text, !title.isEmpty else { return }
+        guard let project = project else {
+            let newProject = Project(context: coreDataStack!.managedContext)
+            newProject.title = title
+            newProject.color = setColor
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
+//        if project.color == nil { //user did not select any colors
+//
+//        }
+        project.title = title
+        project.color = setColor
+        coreDataStack?.saveContext()
+//        if project != nil{
+//            project?.setValue(titleField.text, forKey: "title")
+//            if setColor != nil{
+//                project?.setValue(setColor, forKey: "color")
+//            }
+//            coreDataStack?.saveContext()
+//        }else{
+//            let newProject = Project(context: coreDataStack!.managedContext)
+//            newProject.title = titleField.text
+//            newProject.color = setColor
+//            coreDataStack?.saveContext()
+//        }
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -97,6 +139,7 @@ extension AddProjectViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.setColor = colors[indexPath.row]
         print(colors[indexPath.row])
         print(indexPath)
     }

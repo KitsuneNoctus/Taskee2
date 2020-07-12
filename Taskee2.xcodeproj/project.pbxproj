@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F0D6F1324B9BF790084293E /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D6F1124B9BF790084293E /* Task+CoreDataClass.swift */; };
-		3F0D6F1424B9BF790084293E /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D6F1224B9BF790084293E /* Task+CoreDataProperties.swift */; };
 		3F4C809624B9B06300E3F046 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C809524B9B06300E3F046 /* AppDelegate.swift */; };
 		3F4C809824B9B06300E3F046 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C809724B9B06300E3F046 /* SceneDelegate.swift */; };
 		3F4C80A024B9B06300E3F046 /* Taskee2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C809E24B9B06300E3F046 /* Taskee2.xcdatamodeld */; };
@@ -26,8 +24,10 @@
 		3F4C80DE24B9B53E00E3F046 /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C80DD24B9B53E00E3F046 /* TasksCell.swift */; };
 		3F4C80E024B9B57400E3F046 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C80DF24B9B57400E3F046 /* TaskViewController.swift */; };
 		3F4C80E224B9B59E00E3F046 /* NewEditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C80E124B9B59E00E3F046 /* NewEditTaskViewController.swift */; };
-		3F4C80E724B9B65100E3F046 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C80E324B9B65000E3F046 /* Project+CoreDataClass.swift */; };
-		3F4C80E824B9B65100E3F046 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C80E424B9B65000E3F046 /* Project+CoreDataProperties.swift */; };
+		3FE97A4B24BAAE3400ACE4E3 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE97A4724BAAE3400ACE4E3 /* Task+CoreDataClass.swift */; };
+		3FE97A4C24BAAE3400ACE4E3 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE97A4824BAAE3400ACE4E3 /* Task+CoreDataProperties.swift */; };
+		3FE97A4D24BAAE3400ACE4E3 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE97A4924BAAE3400ACE4E3 /* Project+CoreDataClass.swift */; };
+		3FE97A4E24BAAE3400ACE4E3 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE97A4A24BAAE3400ACE4E3 /* Project+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3F0D6F1124B9BF790084293E /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
-		3F0D6F1224B9BF790084293E /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3F4C809224B9B06300E3F046 /* Taskee2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskee2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4C809524B9B06300E3F046 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F4C809724B9B06300E3F046 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,8 +71,10 @@
 		3F4C80DD24B9B53E00E3F046 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
 		3F4C80DF24B9B57400E3F046 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		3F4C80E124B9B59E00E3F046 /* NewEditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEditTaskViewController.swift; sourceTree = "<group>"; };
-		3F4C80E324B9B65000E3F046 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
-		3F4C80E424B9B65000E3F046 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3FE97A4724BAAE3400ACE4E3 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3FE97A4824BAAE3400ACE4E3 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3FE97A4924BAAE3400ACE4E3 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3FE97A4A24BAAE3400ACE4E3 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,10 +175,10 @@
 		3F4C80CA24B9B2A000E3F046 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3F0D6F1124B9BF790084293E /* Task+CoreDataClass.swift */,
-				3F0D6F1224B9BF790084293E /* Task+CoreDataProperties.swift */,
-				3F4C80E324B9B65000E3F046 /* Project+CoreDataClass.swift */,
-				3F4C80E424B9B65000E3F046 /* Project+CoreDataProperties.swift */,
+				3FE97A4724BAAE3400ACE4E3 /* Task+CoreDataClass.swift */,
+				3FE97A4824BAAE3400ACE4E3 /* Task+CoreDataProperties.swift */,
+				3FE97A4924BAAE3400ACE4E3 /* Project+CoreDataClass.swift */,
+				3FE97A4A24BAAE3400ACE4E3 /* Project+CoreDataProperties.swift */,
 				3F4C809E24B9B06300E3F046 /* Taskee2.xcdatamodeld */,
 				3F4C80CB24B9B2C800E3F046 /* TaskModel.swift */,
 				3F4C80CD24B9B2ED00E3F046 /* MFTextField.swift */,
@@ -354,21 +354,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F4C809624B9B06300E3F046 /* AppDelegate.swift in Sources */,
+				3FE97A4D24BAAE3400ACE4E3 /* Project+CoreDataClass.swift in Sources */,
 				3F4C80D724B9B3A700E3F046 /* ProjectHomeViewController.swift in Sources */,
+				3FE97A4B24BAAE3400ACE4E3 /* Task+CoreDataClass.swift in Sources */,
 				3F4C809824B9B06300E3F046 /* SceneDelegate.swift in Sources */,
-				3F4C80E724B9B65100E3F046 /* Project+CoreDataClass.swift in Sources */,
 				3F4C80CC24B9B2C800E3F046 /* TaskModel.swift in Sources */,
 				3F4C80DC24B9B51200E3F046 /* CheckBox.swift in Sources */,
 				3F4C80E024B9B57400E3F046 /* TaskViewController.swift in Sources */,
-				3F4C80E824B9B65100E3F046 /* Project+CoreDataProperties.swift in Sources */,
 				3F4C80E224B9B59E00E3F046 /* NewEditTaskViewController.swift in Sources */,
 				3F4C80D524B9B37A00E3F046 /* ProjectCell.swift in Sources */,
-				3F0D6F1424B9BF790084293E /* Task+CoreDataProperties.swift in Sources */,
-				3F0D6F1324B9BF790084293E /* Task+CoreDataClass.swift in Sources */,
 				3F4C80D024B9B31A00E3F046 /* CoreDataStack.swift in Sources */,
 				3F4C80DE24B9B53E00E3F046 /* TasksCell.swift in Sources */,
+				3FE97A4E24BAAE3400ACE4E3 /* Project+CoreDataProperties.swift in Sources */,
 				3F4C80D924B9B49400E3F046 /* AddProjectViewController.swift in Sources */,
 				3F4C80A024B9B06300E3F046 /* Taskee2.xcdatamodeld in Sources */,
+				3FE97A4C24BAAE3400ACE4E3 /* Task+CoreDataProperties.swift in Sources */,
 				3F4C80CE24B9B2ED00E3F046 /* MFTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@ import CoreData
 
 class ProjectHomeViewController: UIViewController {
     
-//    lazy var coreDataStack = CoreDataStack()
+    var coreDataStack = CoreDataStack(modelName: "Taskee2")
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -23,21 +23,22 @@ class ProjectHomeViewController: UIViewController {
     }()
     
     //MARK: Fetch Controller
-//    lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
-//
-//        let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
-//        fetchRequest.sortDescriptors = []
-//
-//        let fetchedResultsController = NSFetchedResultsController(
-//            fetchRequest: fetchRequest,
-//            managedObjectContext: coreDataStack.managedContext,
-//            sectionNameKeyPath: nil,
-//            cacheName: nil)
-//
-//        fetchRequest.delegate = self
-//
-//        return fetchedResultsController
-//    }()
+    lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
+
+        let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
+        
+        fetchRequest.sortDescriptors = []
+
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+
+        fetchedResultsController.delegate = self
+
+        return fetchedResultsController
+    }()
     
     //MARK: View Did Load
     override func viewDidLoad() {
@@ -47,8 +48,14 @@ class ProjectHomeViewController: UIViewController {
         self.view.backgroundColor = .white
         setButton()
         setTable()
+        do {
+          try fetchedResultsController.performFetch()
+        } catch {
+          print(error)
+        }
     }
     
+    //MARK: Set Table
     func setTable(){
         tableView.dataSource = self
         tableView.delegate = self
@@ -80,32 +87,36 @@ class ProjectHomeViewController: UIViewController {
 //MARK: Extension - Configure Cell
 extension ProjectHomeViewController{
     func configure(cell: UITableViewCell, for indexPath: IndexPath){
-//        guard let cell = cell as? ProjectCell else { return }
-//        let project = fetchedResultsController.object(at: indexPath)
         
-//        cell.projectTitle.text = project.title
+        guard let cell = cell as? ProjectCell else { return }
+        let project = fetchedResultsController.object(at: indexPath)
         
-//        cell.projectTitle.text = project
+        cell.projectTitle.text = project.title
+        if let colorTag = project.color {
+            cell.colorTag.backgroundColor = colorTag
+        } else {
+            cell.colorTag.backgroundColor = nil
+        }
     }
 }
 
 //MARK: Table Delegate & Data Source
 extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
+    //MARK: Number of Sections
     func numberOfSections(in tableView: UITableView) -> Int {
       //sections
-//      return fetchedResultsController.sections?.count ?? 0
-        return 1
+      return fetchedResultsController.sections?.count ?? 0
     }
     
+    //MARK: Number of Rows In Section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      //rows
-//      guard let sectionInfo =
-//        fetchedResultsController.sections?[section] else {
-//          return 0
-//      }
-      
-//      return sectionInfo.numberOfObjects
-        return 1
+        //rows
+        guard let sectionInfo =
+            fetchedResultsController.sections?[section] else {
+                return 0
+        }
+        
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -118,6 +129,7 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
+    //MARK: Did select row at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ProjectCell
         let vc = TaskViewController()
