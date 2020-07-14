@@ -23,7 +23,7 @@ class AddProjectViewController: UIViewController {
     //MARK: Creating Objects
     let colors: [UIColor] = [UIColor(named: "softRed")!,UIColor(named: "almostPink")!,UIColor(named: "Lavender")!,UIColor(named: "SkyBlue")!,UIColor(named: "ForrestGreen")!,UIColor(named: "lightOrange")!,UIColor(named: "black")!,UIColor(named: "grey")!,UIColor(named: "lightGrey")!]
     
-    var setColor: UIColor? = nil
+    var setColor: UIColor? = .white
     
 //    let titleField: UITextField = {
 //        let text = UITextField()
@@ -54,9 +54,11 @@ class AddProjectViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
-        
         setup()
-        config()
+        
+        if project != nil {
+            config()
+        }
         
     }
     
@@ -86,8 +88,15 @@ class AddProjectViewController: UIViewController {
     
     //MARK: Touch Action - Save
     @objc func save(){
-        update()
-//        delegate?.didFinish(viewController: self, didSave: true)
+        if project == nil{
+            let newProject = Project(context: coreDataStack!.managedContext)
+            newProject.title = titleField.text
+            newProject.color = setColor
+            coreDataStack?.saveContext()
+        }else{
+            project?.title = titleField.text
+            project?.color = setColor
+        }
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -101,25 +110,7 @@ private extension AddProjectViewController{
         
         guard let color = project.color else { return }
         
-        var index = 0
-        
-        for (ind, col) in colors.enumerated(){
-            if col == color{
-                index = ind
-            }
-        }
-        setColor = colors[index]
-        
-//        colorCollect.selectItem(at: [0,index] , animated: true, scrollPosition: .top) = color
-    }
-    
-    func update(){
-        print("Updating")
-        guard let proj = project else { return }
-        
-        proj.title = titleField.text
-        proj.color = setColor
-        
+        setColor = color
     }
 }
 

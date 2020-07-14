@@ -9,6 +9,11 @@
 import UIKit
 
 class TaskViewController: UIViewController {
+    
+    var coreDataStack: CoreDataStack!
+    var tasks = [Task]()
+    var theProject: Project?
+    
     var projectTitle: String = "Project Name"
     
     let dummyData: [TaskItem] = [

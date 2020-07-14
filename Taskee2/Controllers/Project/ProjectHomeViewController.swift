@@ -14,6 +14,7 @@ class ProjectHomeViewController: UIViewController {
 //    modelName: "Taskee2"
     var coreDataStack = CoreDataStack()
     
+    
     let tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +50,17 @@ class ProjectHomeViewController: UIViewController {
         self.view.backgroundColor = .white
         setButton()
         setTable()
+        fetchResults()
+    }
+    
+    
+    //MARK: View Will Appear
+    override func viewWillAppear(_ animated: Bool) {
+        fetchResults()
+        tableView.reloadData()
+    }
+    
+    func fetchResults(){
         do {
           try fetchedResultsController.performFetch()
         } catch {
@@ -79,13 +91,9 @@ class ProjectHomeViewController: UIViewController {
     
     @objc func createProject(){
         print("Adding project")
-//        let addVC = AddProjectViewController()
-        let project = Project(context: coreDataStack.managedContext)
-        project.color = .black
-        project.title = "Projects New"
-        coreDataStack.saveContext()
-//        addVC.coreDataStack = coreDataStack
-//        self.navigationController?.pushViewController(addVC, animated: true)
+        let addVC = AddProjectViewController()
+        addVC.coreDataStack = coreDataStack
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
     
 }
@@ -127,10 +135,6 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath) as! ProjectCell
-//        let news = newsArts[indexPath.row]
-//        cell.colorTag.backgroundColor = .red
-//        cell.projectTitle.text = "Project Sneel"
-//        cell.taskLabel.text = "5 Tasks"
         configure(cell: cell, for: indexPath)
         return cell
     }
@@ -139,7 +143,10 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ProjectCell
         let vc = TaskViewController()
+        let project = fetchedResultsController.object(at: indexPath)
+        vc.coreDataStack = coreDataStack
         vc.projectTitle = cell.projectTitle.text ?? ""
+        vc.theProject = project
         navigationController?.pushViewController(vc, animated: true)
     }
     
