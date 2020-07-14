@@ -17,9 +17,9 @@ class CoreDataStack {
     lazy var managedContext: NSManagedObjectContext = {
         return self.storeContainer.viewContext
     }()
-    
-    init(modelName: String) {
-        self.modelName = modelName //initializer needed to save the modelName into the private property
+//    modelName: String
+    init() {
+        self.modelName = "Taskee2" //initializer needed to save the modelName into the private property
     }
     
     //lazy instantiate the NSPersistentContainer, passing the modelName

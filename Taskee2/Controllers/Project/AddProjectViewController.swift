@@ -16,8 +16,9 @@ protocol ProjectEntryDelegate{
 
 class AddProjectViewController: UIViewController {
     var project: Project?
-    var context: NSManagedObjectContext!
-    var delegate: ProjectEntryDelegate?
+//    var context: NSManagedObjectContext!
+//    var delegate: ProjectEntryDelegate?
+    var coreDataStack: CoreDataStack?
     
     //MARK: Creating Objects
     let colors: [UIColor] = [UIColor(named: "softRed")!,UIColor(named: "almostPink")!,UIColor(named: "Lavender")!,UIColor(named: "SkyBlue")!,UIColor(named: "ForrestGreen")!,UIColor(named: "lightOrange")!,UIColor(named: "black")!,UIColor(named: "grey")!,UIColor(named: "lightGrey")!]
@@ -53,8 +54,8 @@ class AddProjectViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
-        setup()
         
+        setup()
         config()
         
     }
@@ -83,20 +84,10 @@ class AddProjectViewController: UIViewController {
         ])
     }
     
-    //MARK: Edit
-    func ifEdit(){
-        
-    }
-    
-    //MARK: New
-    func isNew(){
-        
-    }
-    
     //MARK: Touch Action - Save
     @objc func save(){
         update()
-        delegate?.didFinish(viewController: self, didSave: true)
+//        delegate?.didFinish(viewController: self, didSave: true)
         self.navigationController?.popViewController(animated: true)
     }
 

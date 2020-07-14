@@ -11,7 +11,8 @@ import CoreData
 
 class ProjectHomeViewController: UIViewController {
     
-    var coreDataStack = CoreDataStack(modelName: "Taskee2")
+//    modelName: "Taskee2"
+    var coreDataStack = CoreDataStack()
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -78,8 +79,13 @@ class ProjectHomeViewController: UIViewController {
     
     @objc func createProject(){
         print("Adding project")
-        let addVC = AddProjectViewController()
-        self.navigationController?.pushViewController(addVC, animated: true)
+//        let addVC = AddProjectViewController()
+        let project = Project(context: coreDataStack.managedContext)
+        project.color = .black
+        project.title = "Projects New"
+        coreDataStack.saveContext()
+//        addVC.coreDataStack = coreDataStack
+//        self.navigationController?.pushViewController(addVC, animated: true)
     }
     
 }
