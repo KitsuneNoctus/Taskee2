@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class NewEditTaskViewController: UIViewController {
+    
+    var project: Project!
+    var task: Task?
+    var coreDataStack: CoreDataStack?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -46,6 +51,10 @@ class NewEditTaskViewController: UIViewController {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(saveTask))
         setup()
+        if task != nil{
+            config()
+        }
+        
     }
     
     //MARK: Setup
@@ -70,9 +79,18 @@ class NewEditTaskViewController: UIViewController {
         ])
     }
     
+    func config(){
+        
+    }
+    
     //MARK: Save Task
     @objc func saveTask(){
         print("Saving")
+        if task == nil{
+            
+        }else{
+            
+        }
     }
 
 }

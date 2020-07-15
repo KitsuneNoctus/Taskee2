@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TaskViewController: UIViewController {
     
@@ -16,15 +17,24 @@ class TaskViewController: UIViewController {
     
     var projectTitle: String = "Project Name"
     
-    let dummyData: [TaskItem] = [
-        TaskItem(name: "Task 1", checked: false),
-        TaskItem(name: "Task 2", checked: false),
-        TaskItem(name: "Task 3", checked: false),
-        TaskItem(name: "Task 4", checked: true)
-    ]
-    
-    private var doneTask: [TaskItem] = []
-    private var todoTask: [TaskItem] = []
+    lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
+
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+//        let projPred = NSPredicate(format: "",)
+//        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [])
+        
+//        fetchRequest.sortDescriptors = []
+
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+
+        fetchedResultsController.delegate = self
+
+        return fetchedResultsController
+    }()
     
     let todoSelector: UISegmentedControl = {
         let control = UISegmentedControl()
@@ -51,7 +61,15 @@ class TaskViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(addTask))
         setupControl()
         setupTable()
+    }
         
+    
+    
+    //MARK: View Will Appear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchResults()
+        taskTable.reloadData()
     }
     
     //MARK: Setup
@@ -81,6 +99,23 @@ class TaskViewController: UIViewController {
         ])
     }
     
+    //MARK: Fetch
+    func fetchResults(){
+        do {
+          try fetchedResultsController.performFetch()
+        } catch {
+          print(error)
+        }
+    }
+    
+    func fetchTodoTasks(){
+        let projectStatus = NSPredicate(format: "status = false")
+    }
+    
+    func fetchDoneTasks(){
+        let projectStatus = NSPredicate(format: "status = true")
+    }
+    
     //MARK: @OBJC
     @objc func addTask(){
         navigationController?.pushViewController(NewEditTaskViewController(), animated: true)
@@ -94,44 +129,69 @@ class TaskViewController: UIViewController {
 
 extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var count = 0
-        switch self.todoSelector.selectedSegmentIndex {
-        case 0:
-            for t in dummyData{
-                if t.checked == false{
-                    count += 1
-                    todoTask.append(t)
-                }
-            }
-        default:
-            for t in dummyData{
-                if t.checked == true{
-                    count += 1
-                    doneTask.append(t)
-                }
-            }
-        }
-        return count
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TasksCell.identifier, for: indexPath) as! TasksCell
-        switch self.todoSelector.selectedSegmentIndex {
-        case 0:
-            cell.taskLabel.text = todoTask[indexPath.row].name
-            cell.check.isChecked = todoTask[indexPath.row].checked
-        default:
-            cell.taskLabel.text = doneTask[indexPath.row].name
-            cell.check.isChecked = doneTask[indexPath.row].checked
-        }
+        cell.taskLabel.text = tasks[indexPath.row].title
+        cell.check.isChecked = tasks[indexPath.row].status
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! TasksCell
-//
-//    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        let cell = tableView.cellForRow(at: indexPath) as! TasksCell
+    //
+    //    }
     
     
 }
+
+//MARK: Configure
+extension TaskViewController{
+    func configure(cell: UITableViewCell, for indexPath: IndexPath){
+        guard let cell = cell as? TasksCell else { return }
+//        let project = fetchedResultsController.object(at: indexPath)
+        cell.check.isChecked = tasks[indexPath.row].status
+        cell.taskLabel.text = tasks[indexPath.row].title
+        
+//        cell.projectTitle.text = project.title
+//        if let colorTag = project.color {
+//            cell.colorTag.backgroundColor = colorTag
+//        } else {
+//            cell.colorTag.backgroundColor = nil
+//        }
+    }
+}
+//MARK: Fetched Results Controller
+extension TaskViewController: NSFetchedResultsControllerDelegate{
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      taskTable.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+      
+      switch type {
+      case .insert:
+        taskTable.insertRows(at: [newIndexPath!], with: .automatic)
+      case .delete:
+        taskTable.deleteRows(at: [indexPath!], with: .automatic)
+      case .update:
+        let cell = taskTable.cellForRow(at: indexPath!) as! TasksCell
+        configure(cell: cell, for: indexPath!)
+      case .move:
+        taskTable.deleteRows(at: [indexPath!], with: .automatic)
+        taskTable.insertRows(at: [newIndexPath!], with: .automatic)
+      }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      taskTable.endUpdates()
+    }
+}
+
 
