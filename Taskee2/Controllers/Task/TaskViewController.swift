@@ -17,25 +17,24 @@ class TaskViewController: UIViewController {
     
     var projectTitle: String = "Project Name"
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
-
-        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
-//        let projPred = NSPredicate(format: "",)
-//        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [])
-        
-//        fetchRequest.sortDescriptors = []
-
-        let fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.managedContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil)
-
-        fetchedResultsController.delegate = self
-
-        return fetchedResultsController
-    }()
-    
+//    lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
+//
+//        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+////        let projPred = NSPredicate(format: "",)
+////        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [])
+//
+////        fetchRequest.sortDescriptors = []
+//
+//        let fetchedResultsController = NSFetchedResultsController(
+//            fetchRequest: fetchRequest,
+//            managedObjectContext: coreDataStack.managedContext,
+//            sectionNameKeyPath: nil,
+//            cacheName: nil)
+//
+//        fetchedResultsController.delegate = self
+//
+//        return fetchedResultsController
+//    }()
     let todoSelector: UISegmentedControl = {
         let control = UISegmentedControl()
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -61,6 +60,7 @@ class TaskViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(addTask))
         setupControl()
         setupTable()
+        fetchTodoTasks()
     }
         
     
@@ -68,7 +68,7 @@ class TaskViewController: UIViewController {
     //MARK: View Will Appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchResults()
+//        fetchResults()
         taskTable.reloadData()
     }
     
@@ -99,21 +99,34 @@ class TaskViewController: UIViewController {
         ])
     }
     
-    //MARK: Fetch
-    func fetchResults(){
-        do {
-          try fetchedResultsController.performFetch()
-        } catch {
-          print(error)
+    //MARK: Fetch - Urgent
+    
+    func fetchTodoTasks(){
+        ///Code Stolen from Cao - Get Your own
+        let projectStatus = NSPredicate(format: "status = false")
+        coreDataStack.fetchTasks(predicate: projectStatus, project: (theProject?.title)!) { results in
+            switch results {
+            case .success(let tasks):
+                self.tasks = tasks
+                self.taskTable.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
-    func fetchTodoTasks(){
-        let projectStatus = NSPredicate(format: "status = false")
-    }
-    
     func fetchDoneTasks(){
+        ///Code Stolen from Cao - Get your own
         let projectStatus = NSPredicate(format: "status = true")
+        coreDataStack.fetchTasks(predicate: projectStatus, project: (theProject?.title)!) { results in
+            switch results {
+            case .success(let tasks):
+                self.tasks = tasks
+                self.taskTable.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     //MARK: @OBJC
@@ -122,6 +135,14 @@ class TaskViewController: UIViewController {
     }
     
     @objc func changeUp(){
+        switch todoSelector.selectedSegmentIndex {
+        case 0:
+            fetchTodoTasks()
+        case 1:
+            fetchDoneTasks()
+        default:
+            break
+        }
         taskTable.reloadData()
     }
 
