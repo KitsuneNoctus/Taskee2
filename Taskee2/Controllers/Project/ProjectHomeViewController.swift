@@ -20,6 +20,7 @@ class ProjectHomeViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .clear
         table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+//        table.allowsMultipleSelectionDuringEditing = true
         table.separatorStyle = UITableViewCell.SeparatorStyle.none
         return table
     }()
@@ -49,7 +50,7 @@ class ProjectHomeViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = .white
         navigationItem.leftBarButtonItem = editButtonItem
-        setButton()
+        setButtons()
         setTable()
         fetchResults()
     }
@@ -85,9 +86,25 @@ class ProjectHomeViewController: UIViewController {
     }
     
     //MARK: Button
-    func setButton(){
+    func setButtons(){
         let newButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createProject))
         self.navigationItem.rightBarButtonItem = newButton
+        
+//        let leftButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(showEditing(sender:)))
+//        self.navigationItem.leftBarButtonItem = leftButton
+    }
+    
+    //https://stackoverflow.com/questions/34157800/set-table-view-into-editing-mode
+    @objc func showEditing(sender: UIBarButtonItem){
+        if(self.tableView.isEditing == true){
+            self.tableView.isEditing = false
+            self.navigationItem.rightBarButtonItem?.title = "Edit"
+        }
+        else
+        {
+            self.tableView.isEditing = true
+            self.navigationItem.rightBarButtonItem?.title = "Done"
+        }
     }
     
     @objc func createProject(){
@@ -130,7 +147,6 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
             fetchedResultsController.sections?[section] else {
                 return 0
         }
-        
         return sectionInfo.numberOfObjects
     }
     
@@ -149,6 +165,27 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
         vc.projectTitle = cell.projectTitle.text ?? ""
         vc.theProject = project
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+          return true
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool){
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+//            let commit = commits[indexPath.row]
+//            container.viewContext.delete(commit)
+//            commits.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//
+//            saveContext()
+        }
     }
     
     

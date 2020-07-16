@@ -18,6 +18,7 @@ class NewEditTaskViewController: UIViewController {
     let datePicker: UIDatePicker = {
         let date = UIDatePicker()
         date.translatesAutoresizingMaskIntoConstraints = false
+        date.datePickerMode = .date
         return date
     }()
     
@@ -70,6 +71,8 @@ class NewEditTaskViewController: UIViewController {
         self.view.addSubview(dateLabel)
         self.view.addSubview(dateField)
         
+        self.view.addSubview(datePicker)
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
@@ -81,7 +84,9 @@ class NewEditTaskViewController: UIViewController {
             dateLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             
             dateField.topAnchor.constraint(equalTo: self.dateLabel.bottomAnchor, constant: 10),
-            dateField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
+            dateField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            
+            datePicker.topAnchor.constraint(equalTo: self.dateField.bottomAnchor, constant: 20)
         ])
     }
     
@@ -92,11 +97,12 @@ class NewEditTaskViewController: UIViewController {
     //MARK: Save Task
     @objc func saveTask(){
         print("Saving")
+//        print(datePicker.date)
         if task == nil{
             let newTask = Task(context: coreDataStack!.managedContext)
             newTask.title = titleField.text
             newTask.status = false
-            //            newTask.duedate = dateField.text
+            newTask.duedate = datePicker.date
             newTask.project = project
             coreDataStack?.saveContext()
         }else{

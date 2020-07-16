@@ -52,6 +52,11 @@ class TaskViewController: UIViewController {
         return table
     }()
     
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "MM/dd/yyyy"
+//    let selectedDate = dateFormatter.string(from: datePicker.date)
+//    print(selectedDate)
+    
     //MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,6 +165,10 @@ extension TaskViewController{
 
 //MARK: TableView Delegate and Data Source
 extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+      return fetchedResultsController.sections?.count ?? 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo =
             fetchedResultsController.sections?[section] else {
