@@ -9,15 +9,8 @@
 import UIKit
 import CoreData
 
-//MARK: Project Entry Delegate
-protocol ProjectEntryDelegate{
-    func didFinish(viewController: AddProjectViewController, didSave: Bool)
-}
-
 class AddProjectViewController: UIViewController {
     var project: Project?
-//    var context: NSManagedObjectContext!
-//    var delegate: ProjectEntryDelegate?
     var coreDataStack: CoreDataStack?
     
     //MARK: Creating Objects
@@ -96,6 +89,7 @@ class AddProjectViewController: UIViewController {
         }else{
             project?.title = titleField.text
             project?.color = setColor
+            coreDataStack?.saveContext()
         }
         self.navigationController?.popViewController(animated: true)
     }

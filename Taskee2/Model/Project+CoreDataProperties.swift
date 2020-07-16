@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  Taskee2
 //
-//  Created by Henry Calderon on 7/13/20.
+//  Created by Henry Calderon on 7/15/20.
 //  Copyright © 2020 Henry Calderon. All rights reserved.
 //
 //
@@ -19,23 +19,23 @@ extension Project {
 
     @NSManaged public var color: UIColor?
     @NSManaged public var title: String?
-    @NSManaged public var newRelationship: NSSet?
+    @NSManaged public var tasks: NSSet?
 
 }
 
-// MARK: Generated accessors for newRelationship
+// MARK: Generated accessors for tasks
 extension Project {
 
-    @objc(addNewRelationshipObject:)
-    @NSManaged public func addToNewRelationship(_ value: Task)
+    @objc(addTasksObject:)
+    @NSManaged public func addToTasks(_ value: Task)
 
-    @objc(removeNewRelationshipObject:)
-    @NSManaged public func removeFromNewRelationship(_ value: Task)
+    @objc(removeTasksObject:)
+    @NSManaged public func removeFromTasks(_ value: Task)
 
-    @objc(addNewRelationship:)
-    @NSManaged public func addToNewRelationship(_ values: NSSet)
+    @objc(addTasks:)
+    @NSManaged public func addToTasks(_ values: NSSet)
 
-    @objc(removeNewRelationship:)
-    @NSManaged public func removeFromNewRelationship(_ values: NSSet)
+    @objc(removeTasks:)
+    @NSManaged public func removeFromTasks(_ values: NSSet)
 
 }

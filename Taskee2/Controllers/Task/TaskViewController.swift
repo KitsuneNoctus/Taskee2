@@ -17,24 +17,25 @@ class TaskViewController: UIViewController {
     
     var projectTitle: String = "Project Name"
     
-//    lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
-//
-//        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
-////        let projPred = NSPredicate(format: "",)
-////        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [])
-//
-////        fetchRequest.sortDescriptors = []
-//
-//        let fetchedResultsController = NSFetchedResultsController(
-//            fetchRequest: fetchRequest,
-//            managedObjectContext: coreDataStack.managedContext,
-//            sectionNameKeyPath: nil,
-//            cacheName: nil)
-//
-//        fetchedResultsController.delegate = self
-//
-//        return fetchedResultsController
-//    }()
+    lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
+        
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        let sort = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+//        print(fetchedResultsController)
+        
+        return fetchedResultsController
+    }()
+    
     let todoSelector: UISegmentedControl = {
         let control = UISegmentedControl()
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -61,8 +62,10 @@ class TaskViewController: UIViewController {
         setupControl()
         setupTable()
         fetchTodoTasks()
+        taskTable.reloadData()
     }
         
+    
     
     
     //MARK: View Will Appear
@@ -102,36 +105,32 @@ class TaskViewController: UIViewController {
     //MARK: Fetch - Urgent
     
     func fetchTodoTasks(){
-        ///Code Stolen from Cao - Get Your own
-        let projectStatus = NSPredicate(format: "status = false")
-        coreDataStack.fetchTasks(predicate: projectStatus, project: (theProject?.title)!) { results in
-            switch results {
-            case .success(let tasks):
-                self.tasks = tasks
-                self.taskTable.reloadData()
-            case .failure(let error):
-                print(error)
-            }
+        let projectPredicate = NSPredicate(format: "project == %@", theProject!)
+        let statusTodoPredicate = NSPredicate(format: "status = false")
+        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusTodoPredicate])
+        do{
+            try fetchedResultsController.performFetch()
+        }catch{
+            print(error)
         }
     }
     
     func fetchDoneTasks(){
-        ///Code Stolen from Cao - Get your own
-        let projectStatus = NSPredicate(format: "status = true")
-        coreDataStack.fetchTasks(predicate: projectStatus, project: (theProject?.title)!) { results in
-            switch results {
-            case .success(let tasks):
-                self.tasks = tasks
-                self.taskTable.reloadData()
-            case .failure(let error):
-                print(error)
-            }
+        let projectPredicate = NSPredicate(format: "project == %@", theProject!)
+        let statusDonePredicate = NSPredicate(format: "status = true")
+        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusDonePredicate])
+        do{
+            try fetchedResultsController.performFetch()
+        }catch{
+            print(error)
         }
     }
     
     //MARK: @OBJC
     @objc func addTask(){
-        navigationController?.pushViewController(NewEditTaskViewController(), animated: true)
+        let vc = NewEditTaskViewController()
+        vc.coreDataStack = coreDataStack
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func changeUp(){
@@ -148,15 +147,30 @@ class TaskViewController: UIViewController {
 
 }
 
+//MARK: Configure
+extension TaskViewController{
+    func configure(cell: UITableViewCell, for indexPath: IndexPath){
+        guard let cell = cell as? TasksCell else { return }
+        let task = fetchedResultsController.object(at: indexPath)
+//        let project = fetchedResultsController.object(at: indexPath)
+        cell.check.isChecked = task.status
+        cell.taskLabel.text = task.title
+    }
+}
+
+//MARK: TableView Delegate and Data Source
 extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
+        guard let sectionInfo =
+            fetchedResultsController.sections?[section] else {
+                return 0
+        }
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TasksCell.identifier, for: indexPath) as! TasksCell
-        cell.taskLabel.text = tasks[indexPath.row].title
-        cell.check.isChecked = tasks[indexPath.row].status
+        configure(cell: cell, for: indexPath)
         return cell
     }
     
@@ -166,23 +180,6 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
     //    }
     
     
-}
-
-//MARK: Configure
-extension TaskViewController{
-    func configure(cell: UITableViewCell, for indexPath: IndexPath){
-        guard let cell = cell as? TasksCell else { return }
-//        let project = fetchedResultsController.object(at: indexPath)
-        cell.check.isChecked = tasks[indexPath.row].status
-        cell.taskLabel.text = tasks[indexPath.row].title
-        
-//        cell.projectTitle.text = project.title
-//        if let colorTag = project.color {
-//            cell.colorTag.backgroundColor = colorTag
-//        } else {
-//            cell.colorTag.backgroundColor = nil
-//        }
-    }
 }
 //MARK: Fetched Results Controller
 extension TaskViewController: NSFetchedResultsControllerDelegate{

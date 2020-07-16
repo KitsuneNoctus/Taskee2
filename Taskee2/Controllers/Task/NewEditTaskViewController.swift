@@ -15,6 +15,12 @@ class NewEditTaskViewController: UIViewController {
     var task: Task?
     var coreDataStack: CoreDataStack?
     
+    let datePicker: UIDatePicker = {
+        let date = UIDatePicker()
+        date.translatesAutoresizingMaskIntoConstraints = false
+        return date
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -87,10 +93,20 @@ class NewEditTaskViewController: UIViewController {
     @objc func saveTask(){
         print("Saving")
         if task == nil{
-            
+            let newTask = Task(context: coreDataStack!.managedContext)
+            newTask.title = titleField.text
+            newTask.status = false
+            //            newTask.duedate = dateField.text
+            newTask.project = project
+            coreDataStack?.saveContext()
         }else{
-            
+            task?.title = titleField.text
+            task?.status = false
+            //            newTask.duedate = dateField.text
+            task?.project = project
+            coreDataStack?.saveContext()
         }
+        self.navigationController?.popViewController(animated: true)
     }
 
 }

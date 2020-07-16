@@ -45,29 +45,6 @@ class CoreDataStack {
         }
     }
     
-    //MARK: Fetch Tasks
-    //Stolen from Cao - Ask Permission or Delete - This doesn't work with my code
-    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, project: String, completion: @escaping(Result<[Task]>) -> Void) {
-        
-        let categoryPredicate = NSPredicate(format: "theProject.title MATCHES %@", project)
-        
-        if let addtionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-        } else {
-            request.predicate = categoryPredicate
-        }
-        
-        
-        do {
-            let tasks = try managedContext.fetch(request)
-            completion(.success(tasks))
-        } catch {
-            completion(.failure(error))
-        }
-        
-        
-    }
-    
 }
 
 enum Result<T> {

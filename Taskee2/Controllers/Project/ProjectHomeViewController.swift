@@ -48,6 +48,7 @@ class ProjectHomeViewController: UIViewController {
         self.title = "Projects"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = .white
+        navigationItem.leftBarButtonItem = editButtonItem
         setButton()
         setTable()
         fetchResults()
