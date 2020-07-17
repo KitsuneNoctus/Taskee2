@@ -34,3 +34,5 @@ Download project [here](https://github.com/KitsuneNoctus/Taskee2/archive/master.
 
 Original Taskee [Here](https://github.com/KitsuneNoctus/Taskee-Final)
 > Lost do to technical and human error
+
+The Original [Commits](https://github.com/KitsuneNoctus/Taskee-Final/commits/master)
