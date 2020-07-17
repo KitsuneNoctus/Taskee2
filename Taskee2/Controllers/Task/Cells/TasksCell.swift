@@ -19,6 +19,15 @@ class TasksCell: UITableViewCell {
         label.textColor = .black
         return label
     }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "system", size: 10)
+        label.textColor = .systemGray
+        return label
+    }()
+    
     let check = CheckBox.init()
 
     override func awakeFromNib() {
@@ -36,14 +45,21 @@ class TasksCell: UITableViewCell {
         check.borderStyle = .roundedSquare(radius: 8)
         check.addTarget(self, action: #selector(todoChecked(_:)), for: .valueChanged)
         self.contentView.addSubview(check)
-        
         self.contentView.addSubview(taskLabel)
+        self.contentView.addSubview(dateLabel)
         
         NSLayoutConstraint.activate([
             check.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            taskLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             check.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            taskLabel.leadingAnchor.constraint(equalTo: check.trailingAnchor, constant: 20)
+            
+//            taskLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            taskLabel.topAnchor.constraint(equalTo: check.topAnchor),
+            taskLabel.leadingAnchor.constraint(equalTo: check.trailingAnchor, constant: 20),
+            
+            dateLabel.topAnchor.constraint(equalTo: taskLabel.bottomAnchor, constant: 5),
+            dateLabel.leadingAnchor.constraint(equalTo: check.trailingAnchor, constant: 20),
+            
+            
         ])
     }
     

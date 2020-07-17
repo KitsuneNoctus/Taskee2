@@ -17,6 +17,8 @@ class TaskViewController: UIViewController {
     
     var projectTitle: String = "Project Name"
     
+    let dateFormatter = DateFormatter()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
         
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
@@ -160,9 +162,16 @@ extension TaskViewController{
     func configure(cell: UITableViewCell, for indexPath: IndexPath){
         guard let cell = cell as? TasksCell else { return }
         let task = fetchedResultsController.object(at: indexPath)
-//        let project = fetchedResultsController.object(at: indexPath)
+        //        let project = fetchedResultsController.object(at: indexPath)
         cell.check.isChecked = task.status
         cell.taskLabel.text = task.title
+        
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        guard let formatDate = task.duedate else{
+            return
+        }
+        let selectedDate = dateFormatter.string(from: formatDate)
+        cell.dateLabel.text = "Due: \(selectedDate)"
         
         cell.tapCheck = {
             if task.status {
@@ -181,7 +190,7 @@ extension TaskViewController{
 //MARK: TableView Delegate and Data Source
 extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-      return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -201,15 +210,21 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             coreDataStack.managedContext.delete(fetchedResultsController.object(at: indexPath))
-            
+            coreDataStack.saveContext()
         }
         
     }
     
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        let cell = tableView.cellForRow(at: indexPath) as! TasksCell
-    //
-    //    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = tableView.cellForRow(at: indexPath) as! TasksCell
+        let vc = NewEditTaskViewController()
+        let task = fetchedResultsController.object(at: indexPath)
+        vc.project = theProject
+        vc.task = task
+        vc.coreDataStack = coreDataStack
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
     
     
 }

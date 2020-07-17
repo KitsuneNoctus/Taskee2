@@ -48,6 +48,8 @@ class AddProjectViewController: UIViewController {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
         setup()
+//        self.view.backgroundColor = setColor
+        titleField.backgroundColor = setColor
         
         if project != nil {
             config()
@@ -58,6 +60,7 @@ class AddProjectViewController: UIViewController {
     //MARK: Setup
     func setup(){
         self.view.addSubview(titleField)
+        titleField.layer.cornerRadius = 5
         self.view.addSubview(colorCollect)
         
         colorCollect.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +72,7 @@ class AddProjectViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
-            titleField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 10),
+            titleField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
             titleField.heightAnchor.constraint(equalToConstant: 50),
             
             colorCollect.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 20),
@@ -105,6 +108,7 @@ private extension AddProjectViewController{
         guard let color = project.color else { return }
         
         setColor = color
+        self.titleField.backgroundColor = setColor
     }
 }
 
@@ -128,8 +132,7 @@ extension AddProjectViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.setColor = colors[indexPath.row]
-        print(colors[indexPath.row])
-        print(indexPath)
+        self.titleField.backgroundColor = colors[indexPath.row]
     }
     
     

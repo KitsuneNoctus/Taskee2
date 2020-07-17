@@ -56,7 +56,7 @@ class NewEditTaskViewController: UIViewController {
         self.title = "New Task or Edit"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Task", style: .plain, target: self, action: #selector(saveTask))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTask))
         setup()
         if task != nil{
             config()
@@ -69,8 +69,6 @@ class NewEditTaskViewController: UIViewController {
         self.view.addSubview(titleLabel)
         self.view.addSubview(titleField)
         self.view.addSubview(dateLabel)
-        self.view.addSubview(dateField)
-        
         self.view.addSubview(datePicker)
         
         NSLayoutConstraint.activate([
@@ -83,14 +81,14 @@ class NewEditTaskViewController: UIViewController {
             dateLabel.topAnchor.constraint(equalTo: self.titleField.bottomAnchor, constant: 30),
             dateLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
             
-            dateField.topAnchor.constraint(equalTo: self.dateLabel.bottomAnchor, constant: 10),
-            dateField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            
-            datePicker.topAnchor.constraint(equalTo: self.dateField.bottomAnchor, constant: 20)
+            datePicker.topAnchor.constraint(equalTo: self.dateLabel.bottomAnchor, constant: 20)
         ])
     }
     
     func config(){
+        guard let task = task else { return }
+        titleField.text = task.title
+        datePicker.date = task.duedate!
         
     }
     
@@ -108,7 +106,7 @@ class NewEditTaskViewController: UIViewController {
         }else{
             task?.title = titleField.text
             task?.status = false
-            //            newTask.duedate = dateField.text
+            task?.duedate = datePicker.date
             task?.project = project
             coreDataStack?.saveContext()
         }

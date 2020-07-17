@@ -52,7 +52,7 @@
 		3F415D2D24BFCC760050D8CF /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3F415D2E24BFCC760050D8CF /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3F415D2F24BFCC760050D8CF /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		3F4C809224B9B06300E3F046 /* Taskee2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskee2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F4C809224B9B06300E3F046 /* Taskee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Taskee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4C809524B9B06300E3F046 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F4C809724B9B06300E3F046 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3F4C809F24B9B06300E3F046 /* Taskee2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Taskee2.xcdatamodel; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		3F4C809324B9B06300E3F046 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3F4C809224B9B06300E3F046 /* Taskee2.app */,
+				3F4C809224B9B06300E3F046 /* Taskee.app */,
 				3F4C80AB24B9B06800E3F046 /* Taskee2Tests.xctest */,
 				3F4C80B624B9B06800E3F046 /* Taskee2UITests.xctest */,
 			);
@@ -240,7 +240,7 @@
 			);
 			name = Taskee2;
 			productName = Taskee2;
-			productReference = 3F4C809224B9B06300E3F046 /* Taskee2.app */;
+			productReference = 3F4C809224B9B06300E3F046 /* Taskee.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3F4C80AA24B9B06800E3F046 /* Taskee2Tests */ = {
@@ -542,7 +542,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.henrycalderon.Taskee2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Taskee;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -560,7 +560,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.henrycalderon.Taskee2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Taskee;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

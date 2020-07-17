@@ -21,6 +21,7 @@ class ProjectHomeViewController: UIViewController {
         table.backgroundColor = .clear
         table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
 //        table.allowsMultipleSelectionDuringEditing = true
+        table.allowsSelectionDuringEditing = true
         table.separatorStyle = UITableViewCell.SeparatorStyle.none
         return table
     }()
@@ -129,6 +130,15 @@ extension ProjectHomeViewController{
         } else {
             cell.colorTag.backgroundColor = nil
         }
+        
+        guard let tasks = project.tasks else { return }
+        var count = 0
+        for task in tasks{
+            if (task as AnyObject).status == false{
+                count += 1
+            }
+        }
+        cell.taskLabel.text = "\(count) pending tasks"
     }
 }
 
@@ -158,13 +168,22 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     //MARK: Did select row at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! ProjectCell
-        let vc = TaskViewController()
-        let project = fetchedResultsController.object(at: indexPath)
-        vc.coreDataStack = coreDataStack
-        vc.projectTitle = cell.projectTitle.text ?? ""
-        vc.theProject = project
-        navigationController?.pushViewController(vc, animated: true)
+        if tableView.isEditing == true{
+            let project = fetchedResultsController.object(at: indexPath)
+            let addVC = AddProjectViewController()
+            addVC.coreDataStack = coreDataStack
+            addVC.project = project
+            self.navigationController?.pushViewController(addVC, animated: true)
+        }else{
+            let cell = tableView.cellForRow(at: indexPath) as! ProjectCell
+            let vc = TaskViewController()
+            let project = fetchedResultsController.object(at: indexPath)
+            vc.coreDataStack = coreDataStack
+            vc.projectTitle = cell.projectTitle.text ?? ""
+            vc.theProject = project
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     private func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -179,12 +198,8 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            let commit = commits[indexPath.row]
-//            container.viewContext.delete(commit)
-//            commits.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//
-//            saveContext()
+            coreDataStack.managedContext.delete(fetchedResultsController.object(at: indexPath))
+            coreDataStack.saveContext()
         }
     }
     
