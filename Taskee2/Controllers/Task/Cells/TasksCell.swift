@@ -11,6 +11,8 @@ import UIKit
 class TasksCell: UITableViewCell {
     static var identifier = "TasksCell"
     
+    var tapCheck: (()->Void)?
+    
     let taskLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +56,7 @@ class TasksCell: UITableViewCell {
     }
     
     @objc func todoChecked(_ sender: CheckBox) {
-        print(sender.isChecked)
+        tapCheck!()
     }
     
 }

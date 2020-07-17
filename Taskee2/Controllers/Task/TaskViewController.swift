@@ -110,11 +110,9 @@ class TaskViewController: UIViewController {
     //MARK: Fetch - Urgent
     
     func fetchTodoTasks(){
-//        let projectPredicate = NSPredicate(format: "project = %@", theProject!)
-//        let statusTodoPredicate = NSPredicate(format: "status = false")
-//        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusTodoPredicate])
-        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "status = false")
-        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "project = %@", theProject!)
+        let projectPredicate = NSPredicate(format: "project = %@", theProject!)
+        let statusTodoPredicate = NSPredicate(format: "status = false")
+        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusTodoPredicate])
         do{
             try fetchedResultsController.performFetch()
         }catch{
@@ -123,7 +121,7 @@ class TaskViewController: UIViewController {
     }
     
     func fetchDoneTasks(){
-        let projectPredicate = NSPredicate(format: "project == %@", theProject!)
+        let projectPredicate = NSPredicate(format: "project = %@", theProject!)
         let statusDonePredicate = NSPredicate(format: "status = true")
         fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusDonePredicate])
         do{
@@ -165,6 +163,18 @@ extension TaskViewController{
 //        let project = fetchedResultsController.object(at: indexPath)
         cell.check.isChecked = task.status
         cell.taskLabel.text = task.title
+        
+        cell.tapCheck = {
+            if task.status {
+                task.status = false
+                self.coreDataStack.saveContext()
+                self.taskTable.reloadData()
+            }else{
+                task.status = true
+                self.coreDataStack.saveContext()
+                self.taskTable.reloadData()
+            }
+        }
     }
 }
 
@@ -186,6 +196,14 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: TasksCell.identifier, for: indexPath) as! TasksCell
         configure(cell: cell, for: indexPath)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            coreDataStack.managedContext.delete(fetchedResultsController.object(at: indexPath))
+            
+        }
+        
     }
     
     //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
