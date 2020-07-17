@@ -48,9 +48,9 @@ class AddProjectViewController: UIViewController {
         self.view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(save))
         setup()
-//        self.view.backgroundColor = setColor
         titleField.backgroundColor = setColor
         
+        //If a project needs to be edited or not
         if project != nil {
             config()
         }

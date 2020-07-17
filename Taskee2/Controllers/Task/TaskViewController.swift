@@ -12,7 +12,6 @@ import CoreData
 class TaskViewController: UIViewController {
     
     var coreDataStack: CoreDataStack!
-    var tasks = [Task]()
     var theProject: Project?
     
     var projectTitle: String = "Project Name"
@@ -32,9 +31,6 @@ class TaskViewController: UIViewController {
             cacheName: nil)
         
         fetchedResultsController.delegate = self
-        
-//        print(fetchedResultsController)
-        
         return fetchedResultsController
     }()
     
@@ -78,7 +74,6 @@ class TaskViewController: UIViewController {
     //MARK: View Will Appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        fetchResults()
         taskTable.reloadData()
     }
     
@@ -109,7 +104,7 @@ class TaskViewController: UIViewController {
         ])
     }
     
-    //MARK: Fetch - Urgent
+    //MARK: Fetch
     
     func fetchTodoTasks(){
         let projectPredicate = NSPredicate(format: "project = %@", theProject!)

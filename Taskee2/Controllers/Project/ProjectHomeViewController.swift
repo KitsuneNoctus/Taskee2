@@ -90,9 +90,6 @@ class ProjectHomeViewController: UIViewController {
     func setButtons(){
         let newButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createProject))
         self.navigationItem.rightBarButtonItem = newButton
-        
-//        let leftButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(showEditing(sender:)))
-//        self.navigationItem.leftBarButtonItem = leftButton
     }
     
     //https://stackoverflow.com/questions/34157800/set-table-view-into-editing-mode
@@ -187,7 +184,6 @@ extension ProjectHomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     private func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
           return true
     }
     
