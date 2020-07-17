@@ -110,9 +110,11 @@ class TaskViewController: UIViewController {
     //MARK: Fetch - Urgent
     
     func fetchTodoTasks(){
-        let projectPredicate = NSPredicate(format: "project == %@", theProject!)
-        let statusTodoPredicate = NSPredicate(format: "status = false")
-        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusTodoPredicate])
+//        let projectPredicate = NSPredicate(format: "project = %@", theProject!)
+//        let statusTodoPredicate = NSPredicate(format: "status = false")
+//        fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [projectPredicate, statusTodoPredicate])
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "status = false")
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "project = %@", theProject!)
         do{
             try fetchedResultsController.performFetch()
         }catch{
@@ -135,6 +137,7 @@ class TaskViewController: UIViewController {
     @objc func addTask(){
         let vc = NewEditTaskViewController()
         vc.coreDataStack = coreDataStack
+        vc.project = theProject
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -142,12 +145,14 @@ class TaskViewController: UIViewController {
         switch todoSelector.selectedSegmentIndex {
         case 0:
             fetchTodoTasks()
+            taskTable.reloadData()
         case 1:
             fetchDoneTasks()
+            taskTable.reloadData()
         default:
             break
         }
-        taskTable.reloadData()
+//        taskTable.reloadData()
     }
 
 }
