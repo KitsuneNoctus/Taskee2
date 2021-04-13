@@ -36,3 +36,6 @@ Original Taskee [Here](https://github.com/KitsuneNoctus/Taskee-Final)
 > Lost do to technical and human error
 
 The Original [Commits](https://github.com/KitsuneNoctus/Taskee-Final/commits/master)
+
+### License
+Distributed under the MIT License. See LICENSE for more information.
